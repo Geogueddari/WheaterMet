@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Carte WMS avec OpenLayers</title>
+  <link href="
+  https://cdn.jsdelivr.net/npm/openlayers@4.6.5/dist/ol.min.css
+  " rel="stylesheet">
+  <script src="
+  https://cdn.jsdelivr.net/npm/openlayers@4.6.5/dist/ol.min.js
+  "></script>
+</head>
+<body>
+  <div id="map" style="width: 100%; height: 100vh;"></div>
+  <script>
+    var map = new ol.Map({
+      target: 'map',
+      layers: [
+/*         new ol.layer.Tile({
+          source: new ol.source.OSM()
+        }), */
+        new ol.layer.Image({
+          source: new ol.source.ImageWMS({
+            url: 'http://localhost:8080/geoserver/ows',
+            params: {'LAYERS': 'PFE:data,PFE:SR_HR,PFE:countries,ne:populated_places', 'TILED': true},
+            ratio: 1,
+            serverType: 'geoserver'
+          })
+        })
+      ],
+      view: new ol.View({
+        center: ol.proj.fromLonLat([-7, 33]), // Choisir les coordonnées de centre de la carte
+        zoom: 5
+      })
+    });
+  </script>
+</body>
+</html>
